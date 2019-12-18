@@ -6,6 +6,8 @@ const cors = require('cors');
 const fileUpload = require('express-fileupload');
 
 var Shop = require('./shop-model');
+var Staff = require('./staff-model');
+var Test = require('./test-model');
 
 const connectionString = 'mongodb+srv://user:blabla123@cluster0-tu99f.mongodb.net/Barber?retryWrites=true&w=majority';
 
@@ -35,7 +37,31 @@ router.get('/shops', (req, res) => {
 	.then((shops) => {
 	    return res.json(shops);
 	});
+})
 
+router.get('/shops/:id', (req, res) => {
+
+    Shop.findOne({id: req.params.id})
+    .populate('staff')
+	.then((shops) => {
+	    return res.json(shops);
+	});
+})
+
+router.get('/staff', (req, res) => {
+
+	Staff.find()
+	.then((staff) => {
+	    return res.json(staff);
+	});
+})
+
+router.get('/test', (req, res) => {
+
+	Test.find()
+	.then((test) => {
+	    return res.json(test);
+	});
 })
 
 
