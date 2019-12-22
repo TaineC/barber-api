@@ -31,6 +31,8 @@ router.get('/testing', (req, res) => {
     res.send('<h1>Testing is working</h1>')
 })
 
+//==== shop ====//
+
 router.get('/shops', (req, res) => {
 
 	Shop.find()
@@ -48,13 +50,47 @@ router.get('/shops/:id', (req, res) => {
 	});
 })
 
-router.get('/staff', (req, res) => {
+router.post('/shops', (req, res) => {
+
+	var shop = new Shop();
+	shop.id = Date.now();
+	
+	var data = req.body;
+	Object.assign(shop,data);
+	
+	shop.save()
+	.then((shop) => {
+	  	return res.json(shop);
+	});
+});
+
+//==== staff ====//
+
+router.get('/staffs', (req, res) => {
 
 	Staff.find()
 	.then((staff) => {
 	    return res.json(staff);
 	});
 })
+
+//==== photos ====//
+
+router.post('/upload', (req, res) => {
+
+	var files = Object.values(req.files);
+	var uploadedFile = files[0];
+
+	var newName = Date.now() + '_' + uploadedFile.name;
+
+	uploadedFile.mv('public/'+ newName, function(){
+		res.send(newName)
+	})
+});
+
+
+
+
 
 router.get('/test', (req, res) => {
 
@@ -63,7 +99,6 @@ router.get('/test', (req, res) => {
 	    return res.json(test);
 	});
 })
-
 
 app.use('/api', router);
 
