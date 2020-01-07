@@ -5,13 +5,13 @@ const logger = require('morgan');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
 
-var Shop = require('./shop-model');
-var Staff = require('./staff-model');
-var Test = require('./test-model');
+const Shop = require('./shop-model');
+const Staff = require('./staff-model');
+const Test = require('./test-model');
 
 const connectionString = 'mongodb+srv://user:blabla123@cluster0-tu99f.mongodb.net/Barber?retryWrites=true&w=majority';
 
-mongoose.connect(connectionString,{ useNewUrlParser: true });
+mongoose.connect(connectionString,{useUnifiedTopology: true, useNewUrlParser: true });
 const db = mongoose.connection;
 db.once('open', () => console.log('Database connected'));
 db.on('error', () => console.log('Database error'));
@@ -25,7 +25,7 @@ app.use(fileUpload());
 app.use(logger('dev'));
 app.use(express.static('public'))
 
-var router = express.Router();
+const router = express.Router();
 
 router.get('/testing', (req, res) => {
     res.send('<h1>Testing is working</h1>')
@@ -52,10 +52,10 @@ router.get('/shops/:id', (req, res) => {
 
 router.post('/shops', (req, res) => {
 
-	var shop = new Shop();
+	let shop = new Shop();
 	shop.id = Date.now();
 	
-	var data = req.body;
+	let data = req.body;
 	Object.assign(shop,data);
 	
 	shop.save()
@@ -78,10 +78,10 @@ router.get('/staffs', (req, res) => {
 
 router.post('/upload', (req, res) => {
 
-	var files = Object.values(req.files);
-	var uploadedFile = files[0];
+	let files = Object.values(req.files);
+	let uploadedFile = files[0];
 
-	var newName = Date.now() + '_' + uploadedFile.name;
+	let newName = Date.now() + '_' + uploadedFile.name;
 
 	uploadedFile.mv('public/'+ newName, function(){
 		res.send(newName)
