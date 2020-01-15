@@ -44,7 +44,7 @@ router.get('/shops', (req, res) => {
 router.get('/shops/:id', (req, res) => {
 
     Shop.findOne({id: req.params.id})
-    .populate('staff')
+    // .populate('staff')
 	.then((shops) => {
 	    return res.json(shops);
 	});
