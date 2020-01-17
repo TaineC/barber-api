@@ -64,6 +64,26 @@ router.post('/shops', (req, res) => {
 	});
 });
 
+router.delete('/shops/:id', (req, res) => {
+
+	Shop.deleteOne({ id: req.params.id })
+	.then(()=>res.json('deleted'))
+});
+
+router.put('/shops/:id', (req, res) => {
+
+	Shop.findOne({id:req.params.id})
+	.then((shop) => {
+		var data = req.body;
+		Object.assign(shop,data);
+		return shop.save()	
+	})
+	.then((shop) => {
+		return res.json(shop);
+	});	
+
+});
+
 //==== staff ====//
 
 router.get('/staffs', (req, res) => {
