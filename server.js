@@ -108,6 +108,22 @@ router.post('/upload', (req, res) => {
 	})
 });
 
+//==== admin access ====//
+
+// router.get('/admin', (req, res) => {
+
+// 	let password = 'password';
+// 	let authenticate = req.password;
+// 	if(authenticate){
+// 		return {status: 200};
+// 	}
+// 	else{
+// 		return {status: 404};
+// 	}
+// });
+
+
+
 
 
 
